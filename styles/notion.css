@@ -169,6 +169,7 @@
 .notion-title {
   display: block;
   text-align: center;
+  word-break: keep-all;
 }
 
 .notion-collection-row {

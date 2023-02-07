@@ -1,3 +1,4 @@
+// global styles shared across the entire site
 // used for rendering equations (optional)
 import 'katex/dist/katex.min.css'
 // used for code syntax highlighting (optional)
@@ -13,9 +14,11 @@ import 'styles/notion.css'
 // global style overrides for prism theme (optional)
 import 'styles/prism-theme.css'
 
-import type { AppProps } from 'next/app'
+import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import * as Fathom from 'fathom-client'
+// Used for google analytics
 import { useRouter } from 'next/router'
+import Script from 'next/script'
 import posthog from 'posthog-js'
 import * as React from 'react'
 
@@ -23,6 +26,7 @@ import { bootstrap } from '@/lib/bootstrap-client'
 import {
   fathomConfig,
   fathomId,
+  googleAnalyticsId,
   isServer,
   posthogConfig,
   posthogId
@@ -36,9 +40,16 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   React.useEffect(() => {
-    function onRouteChangeComplete() {
+    function onRouteChangeComplete(url: string) {
       if (fathomId) {
         Fathom.trackPageview()
+      }
+
+      if (googleAnalyticsId) {
+        // This should be optional chaining since it sometime not initialized at this point.
+        window?.gtag?.('config', googleAnalyticsId, {
+          page_path: url
+        })
       }
 
       if (posthogId) {
@@ -61,5 +72,51 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router.events])
 
-  return <Component {...pageProps} />
+  return (
+    <>
+      {googleAnalyticsId && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+            strategy='afterInteractive'
+          />
+          <Script
+            id='gtag-init'
+            strategy='afterInteractive'
+            dangerouslySetInnerHTML={{
+              __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){window.dataLayer.push(arguments);}
+                  gtag('js', new Date());
+
+                  gtag('config', '${googleAnalyticsId}', {
+                    page_path: window.location.pathname,
+                });
+              `
+            }}
+          />
+        </>
+      )}
+      <Component {...pageProps} />
+    </>
+  )
+}
+
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  // TODO: seems fathom doesn't support webVitals?
+
+  if (googleAnalyticsId) {
+    // This should be optional chaining since it sometime not initialized at this point.
+    window?.gtag?.('event', metric.name, {
+      value: Math.round(
+        metric.name === 'CLS' ? metric.value * 1000 : metric.value
+      ), // values must be integers
+      event_label: metric.id, // id unique to current page load
+      non_interaction: true // avoids affecting bounce rate.
+    })
+  }
+
+  if (posthogId) {
+    posthog.capture(metric.name, metric)
+  }
 }

@@ -1,3 +1,5 @@
+import type { GiscusProps } from '@giscus/react'
+
 import type * as types from './types'
 
 export interface SiteConfig {
@@ -33,6 +35,8 @@ export interface SiteConfig {
 
   navigationStyle?: types.NavigationStyle
   navigationLinks?: Array<NavigationLink>
+
+  giscusGithubConfig?: GiscusProps
 }
 
 export interface NavigationLink {

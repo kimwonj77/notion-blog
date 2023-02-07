@@ -4,6 +4,7 @@
  * This file pulls from the root "site.config.ts" as well as environment variables
  * for optional depenencies.
  */
+import { type GiscusProps } from '@giscus/react'
 import { parsePageId } from 'notion-utils'
 import { type PostHogConfig } from 'posthog-js'
 
@@ -167,6 +168,8 @@ export const fathomConfig = fathomId
     }
   : undefined
 
+export const googleAnalyticsId = isDev ? null : process.env.NEXT_PUBLIC_GA_ID
+
 export const posthogId = process.env.NEXT_PUBLIC_POSTHOG_ID
 export const posthogConfig: Partial<PostHogConfig> = {
   api_host: 'https://app.posthog.com'
@@ -219,3 +222,22 @@ function invertPageUrlOverrides(
     }
   }, {})
 }
+
+class GiscusConfig {
+  props: GiscusProps
+
+  constructor(props: GiscusProps) {
+    this.props = props
+  }
+
+  valid() {
+    return !!this.props.repo && !!this.props.repoId && !!this.props.mapping
+  }
+  config() {
+    return this.props
+  }
+}
+
+export const giscusConfig = new GiscusConfig(
+  getSiteConfig('giscusGithubConfig')
+)

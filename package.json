@@ -1,10 +1,10 @@
 {
-  "name": "nextjs-notion-starter-kit",
+  "name": "notion-blog",
   "version": "2.0.0",
   "private": true,
-  "description": "The perfect starter kit for building beautiful websites with Next.js and Notion.",
-  "author": "Travis Fischer <travis@transitivebullsh.it>",
-  "repository": "transitive-bullshit/nextjs-notion-starter-kit",
+  "description": "A blog by WonJung Kim.",
+  "author": "WonJung Kim <git@won-jung.kim>",
+  "repository": "kimwonj77/notion-blog",
   "license": "MIT",
   "engines": {
     "node": ">=18"
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@fisch0920/use-dark-mode": "^2.4.0",
+    "@giscus/react": "^3.1.0",
     "@keyvhq/core": "^1.6.9",
     "@keyvhq/redis": "^1.6.10",
     "@react-icons/all-files": "^4.1.0",
@@ -47,18 +48,22 @@
     "p-memoize": "^7.1.1",
     "posthog-js": "^1.181.0",
     "prismjs": "^1.29.0",
+    "lodash.omit": "^4.5.0",
     "react": "^18.2.0",
     "react-body-classname": "^1.3.1",
     "react-dom": "^18.2.0",
     "react-notion-x": "^7.2.3",
     "react-tweet": "^3.2.1",
     "react-use": "^17.4.2",
+    "react-tweet-embed": "^2.0.0",
     "rss": "^1.2.2"
   },
   "devDependencies": {
     "@fisch0920/eslint-config": "^1.4.0",
     "@next/bundle-analyzer": "^15.0.2",
     "@types/node": "^22.8.6",
+    "@types/gtag.js": "^0.0.20",
+    "@types/lodash.omit": "^4.5.6",
     "@types/react": "^18.0.21",
     "cross-env": "^7.0.2",
     "eslint": "^8.57.1",

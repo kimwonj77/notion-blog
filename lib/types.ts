@@ -16,6 +16,8 @@ export interface PageProps {
   recordMap?: ExtendedRecordMap
   pageId?: string
   error?: PageError
+  tagsPage?: boolean
+  propertyToFilterName?: string | string
 }
 
 export interface ExtendedTweetRecordMap extends ExtendedRecordMap {
@@ -51,7 +53,12 @@ export interface SiteMap {
 }
 
 export interface CanonicalPageMap {
-  [canonicalPageId: string]: string
+  [canonicalPageId: string]: CanonicalPageData
+}
+
+export interface CanonicalPageData {
+  pageId: string
+  lastModifiedTime: Date
 }
 
 export interface PageUrlOverridesMap {
