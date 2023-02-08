@@ -25,6 +25,7 @@ import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
 import { PageHead } from './PageHead'
+import ReactGiscus from './ReactGiscus'
 import styles from './styles.module.css'
 
 // -----------------------------------------------------------------------------
@@ -192,6 +193,10 @@ export const NotionPage: React.FC<types.PageProps> = ({
   const showTableOfContents = !!isBlogPost
   const minTableOfContentsItems = 3
 
+  const comments: React.ReactNode = isBlogPost ? (
+    <ReactGiscus darkMode={isDarkMode} />
+  ) : null
+
   const pageAside = React.useMemo(
     () => (
       <PageAside block={block} recordMap={recordMap} isBlogPost={isBlogPost} />
@@ -275,6 +280,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
         defaultPageCoverPosition={config.defaultPageCoverPosition}
         mapPageUrl={siteMapPageUrl}
         mapImageUrl={mapImageUrl}
+        pageFooter={comments}
         searchNotion={config.isSearchEnabled ? searchNotion : null}
         pageAside={pageAside}
         footer={footer}

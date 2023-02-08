@@ -34,6 +34,14 @@ body {
   width: 1.2em !important;
 }
 
+.giscus,
+.giscus-frame {
+  width: 100%;
+}
+.giscus-frame {
+  padding-right: 1px;
+}
+
 .searchInput {
   color: var(--fg-color);
   caret-color: var(--fg-color);

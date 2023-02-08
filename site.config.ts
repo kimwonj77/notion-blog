@@ -30,6 +30,17 @@ export default siteConfig({
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
 
+  // Giscus comment props
+  giscusGithubConfig: {
+    repo: 'kimwonj77/notion-blog',
+    repoId: 'R_kgDOI6pTdg',
+    category: 'Comments',
+    categoryId: 'DIC_kwDOI6pTds4CUEtq',
+    mapping: 'title',
+    reactionsEnabled: '1',
+    theme: 'preferred_color_scheme',
+  },
+
   // whether or not to enable support for LQIP preview images (optional)
   isPreviewImageSupportEnabled: true,
 

@@ -4,6 +4,7 @@
  * This file pulls from the root "site.config.ts" as well as environment variables
  * for optional depenencies.
  */
+import { GiscusProps } from '@giscus/react'
 import { parsePageId } from 'notion-utils'
 import { PostHogConfig } from 'posthog-js'
 
@@ -219,3 +220,22 @@ function invertPageUrlOverrides(
     }
   }, {})
 }
+
+class GiscusConfig {
+  props: GiscusProps
+
+  constructor(props: GiscusProps) {
+    this.props = props
+  }
+
+  valid() {
+    return !!this.props.repo && !!this.props.repoId && !!this.props.mapping
+  }
+  config() {
+    return this.props
+  }
+}
+
+export const giscusConfig = new GiscusConfig(
+  getSiteConfig('giscusGithubConfig')
+)
