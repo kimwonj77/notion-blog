@@ -55,7 +55,7 @@ async function getAllPagesImpl(
       if (!isPublic) return map
 
       const lastModifiedTime = new Date(
-        block?.last_edited_time ? block.last_edited_time : block.created_time
+        block?.last_edited_time ?? block?.created_time ?? 0
       )
 
       const canonicalPageId = getCanonicalPageId(pageId, recordMap, {
