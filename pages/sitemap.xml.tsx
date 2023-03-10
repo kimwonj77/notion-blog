@@ -42,11 +42,12 @@ const createSitemap = (siteMap: SiteMap) =>
       <loc>${host}/</loc>
     </url>
 
-    ${Object.keys(siteMap.canonicalPageMap)
-      .map((canonicalPagePath) =>
+    ${Object.entries(siteMap.canonicalPageMap)
+      .map(([canonicalPagePath, canonicalPageData]) =>
         `
           <url>
             <loc>${host}/${canonicalPagePath}</loc>
+            <lastmod>${canonicalPageData.lastModifiedTime.toISOString()}</lastmod>
           </url>
         `.trim()
       )

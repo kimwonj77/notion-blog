@@ -1,4 +1,4 @@
-import { getAllPagesInSpace, uuidToId, getPageProperty } from 'notion-utils'
+import { getAllPagesInSpace, getPageProperty, uuidToId } from 'notion-utils'
 import pMemoize from 'p-memoize'
 
 import * as config from './config'
@@ -42,19 +42,30 @@ async function getAllPagesImpl(
 
   const canonicalPageMap = Object.keys(pageMap).reduce(
     (map, pageId: string) => {
+      if (uuidToId(pageId) === config.rootNotionPageId) return map
+
       const recordMap = pageMap[pageId]
       if (!recordMap) {
         throw new Error(`Error loading page "${pageId}"`)
       }
 
       const block = recordMap.block[pageId]?.value
-      if (!(getPageProperty<boolean|null>('Public', block, recordMap) ?? true)) {
-        return map
-      }
+      const isPublic =
+        getPageProperty<boolean | null>('Public', block, recordMap) ?? true
+      if (!isPublic) return map
+
+      const lastModifiedTime = new Date(
+        block?.last_edited_time ? block.last_edited_time : block.created_time
+      )
 
       const canonicalPageId = getCanonicalPageId(pageId, recordMap, {
         uuid
       })
+
+      const canonicalPageData: types.CanonicalPageData = {
+        pageId,
+        lastModifiedTime
+      }
 
       if (map[canonicalPageId]) {
         // you can have multiple pages in different collections that have the same id
@@ -69,7 +80,7 @@ async function getAllPagesImpl(
       } else {
         return {
           ...map,
-          [canonicalPageId]: pageId
+          [canonicalPageId]: canonicalPageData
         }
       }
     },
