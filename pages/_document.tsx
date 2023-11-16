@@ -18,6 +18,11 @@ export default class MyDocument extends Document {
             />
 
             <link rel='manifest' href='/manifest.json' />
+            <script 
+              async 
+              src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1967070994951432'
+              crossOrigin='anonymous'
+            ></script>
           </Head>
 
           <body>
