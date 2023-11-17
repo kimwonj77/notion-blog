@@ -168,6 +168,8 @@ export const fathomConfig = fathomId
     }
   : undefined
 
+export const googleAnalyticsId = isDev ? null : process.env.NEXT_PUBLIC_GA_ID
+
 export const posthogId = process.env.NEXT_PUBLIC_POSTHOG_ID
 export const posthogConfig: Partial<PostHogConfig> = {
   api_host: 'https://app.posthog.com'
