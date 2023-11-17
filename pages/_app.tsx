@@ -2,7 +2,6 @@
 import * as React from 'react'
 import type { AppProps } from 'next/app'
 import { NextWebVitalsMetric } from 'next/app'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
 
@@ -76,26 +75,24 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       {googleAnalyticsId && (
         <>
-          <Head>
-            <Script
-              id='gtag-init'
-              strategy='afterInteractive'
-              dangerouslySetInnerHTML={{
-                __html: `
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+            strategy='afterInteractive'
+          />
+          <Script
+            id='gtag-init'
+            strategy='afterInteractive'
+            dangerouslySetInnerHTML={{
+              __html: `
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){window.dataLayer.push(arguments);}
                   gtag('js', new Date());
 
                   gtag('config', '${googleAnalyticsId}', {
                     page_path: window.location.pathname,
-                  });
-                `
-              }}
-            />
-          </Head>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-            strategy='afterInteractive'
+                });
+              `
+            }}
           />
         </>
       )}
